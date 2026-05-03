@@ -1,0 +1,27 @@
+services:
+  nodeapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nodeapp_assignment
+    expose:
+      - "3000"
+    networks:
+      - appnet
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nodeapp_nginx
+    depends_on:
+      - nodeapp
+    ports:
+      - "8080:80"
+      - "8443:443"
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: bridge
